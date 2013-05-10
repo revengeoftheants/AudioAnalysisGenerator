@@ -104,8 +104,9 @@ public class Main extends PApplet {
 			for (int idx = 0; idx < _player.bufferSize(); idx++) {
 				float bufferValNbr = (_player.left.get(idx) + _player.right.get(idx));
 				_saver.recordBufferVal(bufferValNbr);
-				_saver.incrAudioFrameIdx();
 			}
+			
+			_saver.incrAudioFrameIdx();
 		} else {
 			_saver.saveFile();
 		}
@@ -123,7 +124,9 @@ public class Main extends PApplet {
 		if (_player.isPlaying()) {
 			text("Displaying music. Current frame: " + str(frameCount), 20, 20);
 			
-			float[] audioFrameBuffer = _displayer.rtrvAudioFrameBuffer(frameCount % _displayer.rtrvAudioFrameCnt());
+			// Modulus of the total audio frame count ensures that it's okay if the frame count exceeds the audio frame count
+			// (e.g., we're looping the song). We subtract 1 because the method expects a zero-based index number.
+			float[] audioFrameBuffer = _displayer.rtrvAudioFrameBuffer((frameCount % _displayer.rtrvAudioFrameCnt()) - 1);
 		
 			for (int bufferIdx = 0; bufferIdx < audioFrameBuffer.length; bufferIdx++) {
 				int xCoordNbr = (int)(bufferIdx * (width / (float)BUFFER_SIZE_NBR));

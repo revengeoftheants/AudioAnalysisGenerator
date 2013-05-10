@@ -15,7 +15,7 @@ public class Saver {
 	 */
 	PApplet _parApp;
 	int _bufferSizeNbr;
-	int _currAudioFrameIdx = 0;
+	int _audioFrameCnt = 0;
 	String _savePathTxt;
 	// We'll use a one-dimensional array that will contain two dimensions: the buffer
 	// for each audio frame we record.
@@ -37,8 +37,8 @@ public class Saver {
 	/*
 	 * Getters
 	 */
-	public int rtrvCurrFrameIdx() {
-		return _currAudioFrameIdx;
+	public int rtrvCurrFrameCnt() {
+		return _audioFrameCnt;
 	}
 	
 	public String rtrvPathTxt() {
@@ -47,35 +47,34 @@ public class Saver {
 	
 	
 	
-	public void recordBufferVal(float inpBufferDatumNbrDatumNbr) {
-		_songDataNbrs.add(new Float(inpBufferDatumNbrDatumNbr));
+	public void recordBufferVal(float inpBufferValNbr) {
+		_songDataNbrs.add(new Float(inpBufferValNbr));
 	}
 
 	
 	public void incrAudioFrameIdx() {
-		_currAudioFrameIdx++;
+		_audioFrameCnt++;
 	}
 	
 	
 	public void saveFile() {
-		String sampleDataTxt; // Save the floats as a long text string.
-		String exportList[] = new String[_currAudioFrameIdx];
+		String audioFrameBuffersData[] = new String[_audioFrameCnt];
 		
-		for (int audioFrameIdx = 0; audioFrameIdx < _currAudioFrameIdx; audioFrameIdx++) {
-			sampleDataTxt = Main.DELIMITER_TXT;
+		for (int audioFrameIdx = 0; audioFrameIdx < _audioFrameCnt; audioFrameIdx++) {
+			String audioFrameBufferDataTxt = ""; // Save the floats as a delimited string of text.
 			
-			for (int bufferLenIdx = 0; bufferLenIdx < _bufferSizeNbr; bufferLenIdx++) {
-				int arrayIdx = (audioFrameIdx * _bufferSizeNbr) + bufferLenIdx;
+			for (int bufferIdx = 0; bufferIdx < _bufferSizeNbr; bufferIdx++) {
+				int arrayIdx = (audioFrameIdx * _bufferSizeNbr) + bufferIdx;
 				
-				float sampleDatumNbr = (Float) _songDataNbrs.get(arrayIdx);
+				float bufferValNbr = (Float) _songDataNbrs.get(arrayIdx);
 				
-				sampleDataTxt += sampleDatumNbr + Main.DELIMITER_TXT;
+				audioFrameBufferDataTxt += bufferValNbr + Main.DELIMITER_TXT;
 			}
 			
-			exportList[audioFrameIdx] = sampleDataTxt;
+			audioFrameBuffersData[audioFrameIdx] = audioFrameBufferDataTxt;
 		}
 		
-		_parApp.saveStrings(_savePathTxt, exportList);
+		_parApp.saveStrings(_savePathTxt, audioFrameBuffersData);
 		
 		_parApp.exit();
 	}
