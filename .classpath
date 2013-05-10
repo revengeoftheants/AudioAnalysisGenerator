@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="libraries/beads.jar"/>
+	<classpathentry kind="lib" path="libraries/core.jar"/>
+	<classpathentry kind="lib" path="libraries/gluegen-rt-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="libraries/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="libraries/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="libraries/jl1.0.jar"/>
+	<classpathentry kind="lib" path="libraries/jogl-all-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="libraries/jogl-all.jar"/>
+	<classpathentry kind="lib" path="libraries/jsminim.jar"/>
+	<classpathentry kind="lib" path="libraries/JSynClasses.jar"/>
+	<classpathentry kind="lib" path="libraries/minim-spi.jar"/>
+	<classpathentry kind="lib" path="libraries/minim.jar"/>
+	<classpathentry kind="lib" path="libraries/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="libraries/sonia_v2_9.jar"/>
+	<classpathentry kind="lib" path="libraries/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="libraries/tritonus_share.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
