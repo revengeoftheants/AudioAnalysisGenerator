@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="libraries/sonia_v2_9.jar"/>
 	<classpathentry kind="lib" path="libraries/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="libraries/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="libraries/commons-lang3-3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

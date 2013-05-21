@@ -1,4 +1,5 @@
 import processing.core.*;
+import org.apache.commons.lang3.*;
 
 /**
  * Loads sound analysis data for display.
@@ -7,74 +8,71 @@ import processing.core.*;
  *
  */
 public class Displayer {
-	
+
 	/*
 	 * Global variables
 	 */
 	PApplet _parApp;
 	float[][] _musicData;
 	String _loadFilePathTxt;
-	int _audioFrameCnt, _bufferSizeNbr;
-	
+	int _audioFrameCnt, _audioFrameDataCnt;
+
 	/**
 	 * Constructor
 	 */
-	public Displayer(PApplet inpParApp, int inpBufferSizeNbr, String inpLoadFilePathTxt) {
+	public Displayer(PApplet inpParApp, String inpLoadFilePathTxt, int inpAudioFrameDataCnt) {
 		_parApp = inpParApp;
 		_loadFilePathTxt = inpLoadFilePathTxt;
-		_bufferSizeNbr = inpBufferSizeNbr;
-		
+		_audioFrameDataCnt = inpAudioFrameDataCnt;
+
 		loadData();
 	}
-	
+
 	/*
 	 * Getters
 	 */
-	
+
 	/**
 	 * Retrieves the total count of audio frames represented in the text file.
 	 */
 	public int rtrvAudioFrameCnt() {
 		return _audioFrameCnt;
 	}
-	
+
 	/**
-	 * Retrieves the buffer for a given audio frame.
+	 * Retrieves the data for a given audio frame.
 	 * 
 	 * @param inpFrameIdx  The zero-based index number of the audio frame to retrieve.
-	 * @return An array of float values representing the buffer for this audio frame.
+	 * @return An array of float values representing the analysis data for this audio frame.
 	 */
-	public float[] rtrvAudioFrameBuffer(int inpFrameIdx) {
-		float[] rtnFrameData = new float[_bufferSizeNbr];
-		
+	public float[] rtrvAudioFrameData(int inpFrameIdx) {
+		float[] rtnFrameData = new float[_audioFrameDataCnt];
+
 		inpFrameIdx = PApplet.constrain(inpFrameIdx, 0, _audioFrameCnt - 1);
-		
-		for (int bufferIdx = 0; bufferIdx < _bufferSizeNbr; bufferIdx++) {
-			rtnFrameData[bufferIdx] = _musicData[inpFrameIdx][bufferIdx];
+
+		for (int frameIdx = 0; frameIdx < _audioFrameDataCnt; frameIdx++) {
+			rtnFrameData[frameIdx] = _musicData[inpFrameIdx][frameIdx];
 		}
-		
+
 		return rtnFrameData;
 	}
 
-	
+
 	/**
 	 * Loads the data from the specified file into memory.
 	 */
 	private void loadData() {
-		String[] audioFrameBuffersTxt = _parApp.loadStrings(_loadFilePathTxt);
-		_audioFrameCnt = audioFrameBuffersTxt.length;
-		_musicData = new float[_audioFrameCnt][_bufferSizeNbr];
-		
-		for (int audioFrameIdx = 0; audioFrameIdx < _audioFrameCnt - 1; audioFrameIdx++) {
-			String bufferTxt = audioFrameBuffersTxt[audioFrameIdx];
-			String[] bufferVals = bufferTxt.split(Main.DELIMITER_TXT);
-			
-			for (int bufferIdx = 0; bufferIdx < _bufferSizeNbr - 1; bufferIdx++) {
-				try {
-					_musicData[audioFrameIdx][bufferIdx] = Float.parseFloat(bufferVals[bufferIdx]);
-				} catch (Exception excp) {
-					PApplet.println(excp.getMessage());
-				}
+		String[] audioFramesDataTxt = _parApp.loadStrings(_loadFilePathTxt);
+		_audioFrameCnt = audioFramesDataTxt.length;
+		_audioFrameDataCnt = StringUtils.countMatches(audioFramesDataTxt[0], Main.DELIMITER_TXT);
+		_musicData = new float[_audioFrameCnt][_audioFrameDataCnt];
+
+		for (int audioFrameIdx = 0; audioFrameIdx < _audioFrameCnt; audioFrameIdx++) {
+			String audioFrameDataTxt = audioFramesDataTxt[audioFrameIdx];
+			String[] analysisVals = audioFrameDataTxt.split(Main.DELIMITER_TXT);
+
+			for (int frameValsIdx = 0; frameValsIdx < _audioFrameDataCnt; frameValsIdx++) {
+				_musicData[audioFrameIdx][frameValsIdx] = Float.parseFloat(analysisVals[frameValsIdx]);
 			}
 		}
 	}
